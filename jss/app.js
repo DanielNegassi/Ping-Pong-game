@@ -23,14 +23,14 @@ var c = canvas.getContext('2d');
 // c.fillStyle = 'grey';
 // c.fillRect(250, 100, 900, 500);
 c.fillStyle = 'black';
-c.fillRect(680, 190, 15, 100);
-c.fillRect(5, 190, 15, 100);
+c.fillRect(680, 190, 13, 100);
+c.fillRect(5, 190, 13, 100);
 
 ///////////////////////////////////ball/////////////////////////////////////////
 let x = 30;
-let y = 500;
-let dx = 2;
-let dy = 2;
+let y = 10;
+let dx = 5;
+let dy = 5;
 function animate() {
   requestAnimationFrame(animate);
   c.clearRect(20, 0, 660, 500);
@@ -40,11 +40,12 @@ function animate() {
   if((x + 4) > 670 || (x - 4) < 26) {
     dx = -dx;
   };
-  if((y + 4) > innerHeight || (x - 4) < innerHeight ) {
+  if((y + 4) > 500 || (y - 4) < 0) {
     dy = -dy;
+  }
   c.stroke();
   x+= dx;
   y+= dy;
 };
-}
+// }
 animate();
