@@ -3,6 +3,8 @@ var canvas = document.querySelector('canvas');
 // canvas.height = window.innerHeight;
 //console.log(canvas);
 var c = canvas.getContext('2d');
+const canvasWidth = 700;
+const canvasHeight = 500;
 //c.fillRect(x, y, width, height);
 //c.fillStyle = 'blue'; to change the color of the canvas
 
@@ -22,30 +24,79 @@ var c = canvas.getContext('2d');
 ///////////////////////////////ping-pong table//////////////////////////////////
 // c.fillStyle = 'grey';
 // c.fillRect(250, 100, 900, 500);
-c.fillStyle = 'black';
-c.fillRect(680, 190, 13, 100);
-c.fillRect(5, 190, 13, 100);
+// c.fillStyle = 'black';
+// c.fillRect(680, 190, 13, 100);
+// c.fillRect(5, 190, 13, 100);
+
+/////////////////////////////////players////////////////////////////////////////
+
+class Player {
+  constructor(name, x, y, width, height) {
+    this.name = name;
+    this.x = x;
+    this.y = y;
+    this.width = width;
+    this.height = height;
+  }
+
+  draw() {
+    c.fillStyle = 'white';
+    c.fillRect(this.x, this.y, this.width, this.height);
+  }
+};
+
+const player1 = new Player('player1', 5, 190, 13, 100);
+const player2 = new Player('player2', 680, 190, 13, 100);
+
+////////////////////////Update function////////////////////////
+function updatePlayers() {
+  player1.draw();
+  player2.draw();
+};
+updatePlayers();
+//////////////////moving players/////////////////////////////////////////
+const movePlayers = (e) => {
+  if (e.keyCode == 65) { // A
+    player1.y -= 60;
+    console.log('asdsd');
+  }
+  if (e.keyCode == 90) { // Z
+    player1.y += 60;
+    console.log('sdfdsf');
+  }
+  if (e.keyCode == 38) { //UP
+    player2.y -= 60;
+  }
+  if (e.keyCode == 40) { //down
+    player2.y += 60;
+  }
+  canvas.width = canvas.width;
+  updatePlayers();
+};
+document.onkeydown = movePlayers;
 
 ///////////////////////////////////ball/////////////////////////////////////////
-let x = 30;
-let y = 10;
-let dx = 5;
-let dy = 5;
+
+let ballx = 30;
+let bally = 10;
+let dx = 2;
+let dy = 2;
+
 function animate() {
   requestAnimationFrame(animate);
-  c.clearRect(20, 0, 660, 500);
+  c.clearRect(0, 0, canvasWidth, canvasHeight);
+  updatePlayers();
   c.beginPath();
-  c.arc(x, y, 10, 4, -3, Math.PI * 2, false);
+  c.arc(ballx, bally, 10, 4, -3, Math.PI * 2, false);
   c.strokeStyle = 'white';
-  if((x + 4) > 670 || (x - 4) < 26) {
+  if ((ballx + 4) > canvasWidth || (ballx - 4) < 0) {
     dx = -dx;
   };
-  if((y + 4) > 500 || (y - 4) < 0) {
+  if ((bally + 4) > canvasHeight || (bally - 4) < 0) {
     dy = -dy;
   }
   c.stroke();
-  x+= dx;
-  y+= dy;
+  ballx += dx;
+  bally += dy;
 };
-// }
 animate();
