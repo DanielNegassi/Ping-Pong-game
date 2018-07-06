@@ -89,7 +89,10 @@ function animate() {
   c.beginPath();
   c.arc(ballx, bally, 10, 4, -3, Math.PI * 2, false);
   c.strokeStyle = 'white';
-  if (ballx <= (player1.x + player1.width)) {
+  if ((ballx<0) || (ballx>canvasWidth)) {
+    alert('Game Over');
+  }
+  else if (ballx <= (player1.x + player1.width)) {
     if ((bally >= player1.y) && (bally <= (player1.y + player1.height)))
       dx = -dx;
       player1.score++;
@@ -98,7 +101,7 @@ function animate() {
     if ((bally >= player2.y) && (bally <= (player2.y + player2.height)))
       dx = -dx;
       player2.score++;
-  };
+  }
   if ((bally + 4) >= canvasHeight || (bally - 4) <= 0) {
     dy = -dy;
   }
@@ -106,7 +109,6 @@ function animate() {
   ballx += dx;
   bally += dy;
 };
-console.log(player1.score);
 animate();
 //////////////////////////////////////timer/////////////////////////////////////
 let time = 0;
@@ -124,13 +126,18 @@ const updateScore = () => {
 		setInterval(function () {
     $('#player1Score').text('Player1: ' + player1.score );
     $('#player2Score').text('Player2: ' + player2.score );
+    if (player1.score >= 5){
+      alert('Player 1 Won !');
+    } else if (player2.score >= 5){
+      alert('Player 2 Won !')
+    };
   }, 1*1000);
   };
 updateScore ();
 /////////////////////////////////////increaseBallSpeed//////////////////////////
-// const increaseBallSpeed = () => {
-//   setInterval(function () {
-//   dx+=2;dy+=2;
-// }, 5*1000);
-// };
-// increaseBallSpeed();
+const increaseBallSpeed = () => {
+  setInterval(function () {
+  dx+=1;dy+=1;
+}, 3*1000);
+};
+increaseBallSpeed();
