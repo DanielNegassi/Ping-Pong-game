@@ -31,12 +31,13 @@ const canvasHeight = 500;
 /////////////////////////////////players////////////////////////////////////////
 
 class Player {
-  constructor(name, x, y, width, height) {
+  constructor(name, x, y, width, height,score) {
     this.name = name;
     this.x = x;
     this.y = y;
     this.width = width;
     this.height = height;
+    this.score = score;
   }
 
   draw() {
@@ -45,8 +46,8 @@ class Player {
   }
 };
 
-const player1 = new Player('player1', 5, 190, 13, 100);
-const player2 = new Player('player2', 680, 190, 13, 100);
+const player1 = new Player('player1', 5, 190, 13, 100,0);
+const player2 = new Player('player2', 680, 190, 13, 100,0);
 
 ////////////////////////Update function////////////////////////
 function updatePlayers() {
@@ -56,11 +57,11 @@ function updatePlayers() {
 updatePlayers();
 //////////////////moving players/////////////////////////////////////////
 const movePlayers = (e) => {
-  if (e.keyCode == 87) { // A
+  if (e.keyCode == 87) { // w
     if(player1.y > 0 || (player1.y + player1.height) < canvasHeight)
     player1.y -= 60;
   }
-  if (e.keyCode == 83) { // Z
+  if (e.keyCode == 83) { // s
     player1.y += 60;
   }
   if (e.keyCode == 38) { //UP
@@ -91,10 +92,13 @@ function animate() {
   if (ballx <= (player1.x + player1.width)) {
     if ((bally >= player1.y) && (bally <= (player1.y + player1.height)))
       dx = -dx;
-  } else if (ballx >= (player2.x)) {
+      player1.score++;
+  };
+  if (ballx >= (player2.x)) {
     if ((bally >= player2.y) && (bally <= (player2.y + player2.height)))
       dx = -dx;
-  }
+      player2.score++;
+  };
   if ((bally + 4) >= canvasHeight || (bally - 4) <= 0) {
     dy = -dy;
   }
@@ -102,4 +106,31 @@ function animate() {
   ballx += dx;
   bally += dy;
 };
+console.log(player1.score);
 animate();
+//////////////////////////////////////timer/////////////////////////////////////
+let time = 0;
+const timePassing = () => {
+		setInterval(function () {
+		time++;
+		$('#timer').text('Time: ' + time + ' s');
+    // $('#player1Score').text('Player1: ' + player1.score );
+    // $('#player2Score').text('Player2: ' + player2.score );
+  }, 1*1000);
+  };
+timePassing();
+/////////////////////////////////////increase score/////////////////////////////
+const updateScore = () => {
+		setInterval(function () {
+    $('#player1Score').text('Player1: ' + player1.score );
+    $('#player2Score').text('Player2: ' + player2.score );
+  }, 1*1000);
+  };
+updateScore ();
+/////////////////////////////////////increaseBallSpeed//////////////////////////
+// const increaseBallSpeed = () => {
+//   setInterval(function () {
+//   dx+=2;dy+=2;
+// }, 5*1000);
+// };
+// increaseBallSpeed();
