@@ -56,13 +56,12 @@ function updatePlayers() {
 updatePlayers();
 //////////////////moving players/////////////////////////////////////////
 const movePlayers = (e) => {
-  if (e.keyCode == 65) { // A
+  if (e.keyCode == 87) { // A
+    if(player1.y > 0 || (player1.y + player1.height) < canvasHeight)
     player1.y -= 60;
-    console.log('asdsd');
   }
-  if (e.keyCode == 90) { // Z
+  if (e.keyCode == 83) { // Z
     player1.y += 60;
-    console.log('sdfdsf');
   }
   if (e.keyCode == 38) { //UP
     player2.y -= 60;
@@ -79,8 +78,8 @@ document.onkeydown = movePlayers;
 
 let ballx = 30;
 let bally = 10;
-let dx = 2;
-let dy = 2;
+let dx = 5;
+let dy = 5;
 
 function animate() {
   requestAnimationFrame(animate);
@@ -89,10 +88,14 @@ function animate() {
   c.beginPath();
   c.arc(ballx, bally, 10, 4, -3, Math.PI * 2, false);
   c.strokeStyle = 'white';
-  if ((ballx + 4) > canvasWidth || (ballx - 4) < 0) {
-    dx = -dx;
-  };
-  if ((bally + 4) > canvasHeight || (bally - 4) < 0) {
+  if (ballx <= (player1.x + player1.width)) {
+    if ((bally >= player1.y) && (bally <= (player1.y + player1.height)))
+      dx = -dx;
+  } else if (ballx >= (player2.x)) {
+    if ((bally >= player2.y) && (bally <= (player2.y + player2.height)))
+      dx = -dx;
+  }
+  if ((bally + 4) >= canvasHeight || (bally - 4) <= 0) {
     dy = -dy;
   }
   c.stroke();
